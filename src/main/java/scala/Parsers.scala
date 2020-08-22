@@ -1,3 +1,4 @@
+/*
 import scala.util.parsing.combinator._
 case class WordFreq(word: String, count: Int) {
   override def toString = "Word <" + word + "> " +
@@ -20,4 +21,4 @@ object TestSimpleParser extends SimpleParser {
       case Error(msg,_) => println("ERROR: " + msg)
     }
   }
-}
+}*/

@@ -14,5 +14,6 @@
     <orderEntry type="library" name="scala-sdk-2.13.2" level="application" />
     <orderEntry type="library" name="Maven: org.scala-lang.modules:scala-parser-combinators_2.13:1.1.2" level="project" />
     <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.13.0" level="project" />
+    <orderEntry type="library" name="scala-sdk-2.13.3-20200701-163819-unknown" level="application" />
   </component>
 </module>
