@@ -1,4 +1,3 @@
-/*
 import scala.util.parsing.combinator._
 case class WordFreq(word: String, count: Int) {
   override def toString = "Word <" + word + "> " +
@@ -10,15 +9,17 @@ class SimpleParser extends RegexParsers {
   def number: Parser[Int]    = """(0|[1-9]\d*)""".r ^^ { _.toInt }
   def freq: Parser[WordFreq] = word ~ number        ^^ { case wd ~ fr => WordFreq(wd,fr) }
   //
-  def keyworld_DML: Parser[String] = "(?i)(SELECT|UPDATE|DELETE|INSERT)".r ^^{_.toString}
+  def Sql_DML: Parser[String] = "(?i)(SELECT|UPDATE|DELETE|INSERT)".r ^^{_.toString}
+  def Sql_DDL: Parser[String] = "(?i)(CREATE|ALTER|DROP)".r ^^{_.toString}
+
 }
 
 object TestSimpleParser extends SimpleParser {
   def main(args: Array[String]) = {
-    parse(keyworld_DML, "insert") match {
+    parse(Sql_DML, "insert") match {
       case Success(matched,_) => println(matched)
       case Failure(msg,_) => println("FAILURE: " + msg)
       case Error(msg,_) => println("ERROR: " + msg)
     }
   }
-}*/
+}
