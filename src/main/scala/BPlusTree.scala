@@ -1,14 +1,23 @@
-case class BPlusTree[A](
+import scala.collection.mutable.ArrayBuffer
 
+case class BPlusTree[A](
+                         var root: RootNode[AnyVal]
                        ) {
 
-  def creat(): RootNode[String] ={
-    RootNode(2,Array(Entry(1,"String"),Entry(2,"HELLO")),Some(LeafNode(2,Array(Entry(1,"WORLD")),None)))
+  var h: Int = 0
 
+  def add_data(data: A): Unit ={
+    if (h == 0 && root.m == 0){
+      root = RootNode[A](ArrayBuffer(Entry(1,1)),None)
+
+      root.array.addOne(Entry(
+        System.currentTimeMillis().toInt,
+        data
+      ))
+    }
   }
-/*  def creat(): Unit ={
-    println("ll")
-  }*/
+
+
 }
 
 
