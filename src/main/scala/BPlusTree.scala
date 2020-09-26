@@ -1,19 +1,28 @@
 import scala.collection.mutable.ArrayBuffer
 
-case class BPlusTree[A](
-                         var root: RootNode[AnyVal]
-                       ) {
+class BPlusTree[A](
 
+                       ) {
+  var root: RootNode[A] = RootNode[A](null,None)
   var h: Int = 0
+  var tree_index = 0
 
   def add_data(data: A): Unit ={
     if (h == 0 && root.m == 0){
-      root = RootNode[A](ArrayBuffer(Entry(1,1)),None)
+      root = RootNode[A](
+        ArrayBuffer(Entry[Int](1,tree_index)),
+        Some(
+          LeafNode[A](
+            ArrayBuffer(Entry[A](tree_index,data)),
+            None
+          )
+        )
+      )
 
-      root.array.addOne(Entry(
-        System.currentTimeMillis().toInt,
-        data
-      ))
+    }
+    else {
+      val test = root.next.get.asInstanceOf[LeafNode[A]]
+      test.array.addOne(Entry[A](2,data))
     }
   }
 
@@ -25,7 +34,10 @@ case class BPlusTree[A](
 
 object test{
   def main(args: Array[String]): Unit = {
-   val a = BPlusTree[String]()
-    println(a.creat())
+    val a = new BPlusTree[String]
+    val data = "aa"
+    a.add_data(data)
+    a.add_data("hello")
+    println(a.root)
   }
 }
