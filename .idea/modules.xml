@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BPlusTree/BPlusTree.iml" filepath="$PROJECT_DIR$/BPlusTree/BPlusTree.iml" />
       <module fileurl="file://$PROJECT_DIR$/Star.iml" filepath="$PROJECT_DIR$/Star.iml" />
     </modules>
   </component>
