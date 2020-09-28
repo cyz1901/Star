@@ -13,13 +13,13 @@ class BPlusTree[A,T<:Node](
 
   def add_data(data: A): Unit ={
     if (h == 0 && root.m == 0){
-      val lf :Node=  LeafNode[A](
+      val lf :Node =  LeafNode[A](
           ArrayBuffer(Entry[A](tree_index,data)),
           None
         )
-
+      println(System.identityHashCode(lf))
       root = RootNode[T](
-        ArrayBuffer(Entry[LeafNode[A]](1,lf.asInstanceOf[LeafNode[A]])),
+        ArrayBuffer(Entry[Node](1,lf)),
         Some(lf)
       )
       tree_index += 1
@@ -48,12 +48,12 @@ object test{
     val a = new BPlusTree[String,Node]
 
     a.add_data("hello")
-    a.add_data("world")
-    a.add_data("my")
-    a.add_data("name")
-    a.add_data("is")
-    a.add_data("yizhou")
+
+
     println(a.root)
+    println(System.identityHashCode(a.root.next.get))
+    println(System.identityHashCode(a.root.array(0).value))
+
     a.serializable()
   }
 }
