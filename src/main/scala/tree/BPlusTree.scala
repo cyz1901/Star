@@ -7,28 +7,32 @@ import scala.collection.mutable.ArrayBuffer
 class BPlusTree[A,T<:Node](
 
                        ) {
-  var root: RootNode[T] = RootNode[T](null,None)
-  var h: Int = 0
+  //var root: RootNode[T] = RootNode[T](null,None)
+  var h: Int = 0 //树的深度
   var tree_index = 0
-
-  def add_data(data: A): Unit ={
-    if (h == 0 && root.m == 0){
-      val lf :Node =  LeafNode[A](
-          ArrayBuffer(Entry[A](tree_index,data)),
-          None
-        )
-      println(System.identityHashCode(lf))
+  var index = 0
+  val M = 3
+  var root: RootNode[T] = {
+      val child_r :Node =  LeafNode[A](
+        ArrayBuffer(null),
+        None
+      )
+      val child_l :Node =  LeafNode[A](
+        ArrayBuffer(null),
+        Some(child_r)
+      )
       root = RootNode[T](
-        ArrayBuffer(Entry[Node](1,lf)),
-        Some(lf)
+        ArrayBuffer(Entry[Node](tree_index,child_l),Entry[Node](tree_index,child_r)),
+        Some(child_l)
       )
       tree_index += 1
-    }
-    else {
-      val test = root.next.get.asInstanceOf[LeafNode[A]]
-      test.array.addOne(Entry[A](tree_index,data))
-      tree_index += 1
-    }
+      root
+  }
+
+
+
+  def add_data(data: A): Unit ={
+    root.array.addOne(Entry[A](index,data))
   }
   def serializable(): Unit ={
     val f = new File("hello.txt")
@@ -39,6 +43,9 @@ class BPlusTree[A,T<:Node](
 
 }
 
+object BPlusTree{
+
+}
 
 
 
@@ -46,14 +53,6 @@ class BPlusTree[A,T<:Node](
 object test{
   def main(args: Array[String]): Unit = {
     val a = new BPlusTree[String,Node]
-
-    a.add_data("hello")
-
-
-    println(a.root)
-    println(System.identityHashCode(a.root.next.get))
-    println(System.identityHashCode(a.root.array(0).value))
-
-    a.serializable()
+    println(a)
   }
 }
