@@ -12,28 +12,27 @@ class BPlusTree[A,T<:Node](
   var tree_index = 0
   var index = 0
   val M = 3
-  var root: RootNode[T] = {
-      val child_r :Node =  LeafNode[A](
-        ArrayBuffer(null),
-        None
-      )
-      val child_l :Node =  LeafNode[A](
-        ArrayBuffer(null),
-        Some(child_r)
-      )
-      root = RootNode[T](
-        ArrayBuffer(Entry[Node](tree_index,child_l),Entry[Node](tree_index,child_r)),
-        Some(child_l)
-      )
-      tree_index += 1
-      root
+
+  var root = {
+      LeafNode[A](ArrayBuffer[Entry[A]](null),None)
   }
 
 
+  def AddData(data: A): Unit ={
+    if (root.array == null){
+      root.array.addOne(Entry[A](index,data))
+    }else{
 
-  def add_data(data: A): Unit ={
-    root.array.addOne(Entry[A](index,data))
+    }
+
   }
+
+
+  def binarySearch(): Unit ={
+
+  }
+
+
   def serializable(): Unit ={
     val f = new File("hello.txt")
     val out = new ObjectOutputStream(new FileOutputStream(f))
