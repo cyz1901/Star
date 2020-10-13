@@ -4,7 +4,7 @@ import java.io.{File, FileOutputStream, ObjectOutputStream}
 
 import scala.collection.mutable.ArrayBuffer
 
-class BPlusTree[A,T<:Node](
+class BPlusTree[A](
 
                        ) {
   //var root: RootNode[T] = RootNode[T](null,None)
@@ -28,8 +28,8 @@ class BPlusTree[A,T<:Node](
   }
 
 
-  def binarySearch(): Unit ={
-
+  def binarySearch(tree : Node[A]): Unit ={
+    tree.array
   }
 
 
