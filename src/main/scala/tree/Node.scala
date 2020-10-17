@@ -11,7 +11,7 @@ trait Node[A] {
 
 }
 
-case class RootNode[A](
+case class RootNode[A<:Node[T],T](
                         var array: ArrayBuffer[Entry[A]],
                         override val next: Option[Node[A]]
                       )extends Node[A]{

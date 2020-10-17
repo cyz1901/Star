@@ -4,7 +4,7 @@ import java.io.{File, FileOutputStream, ObjectOutputStream}
 
 import scala.collection.mutable.ArrayBuffer
 
-class BPlusTree[A](
+class BPlusTree[A<:Node[T],T](
 
                        ) {
   //var root: RootNode[T] = RootNode[T](null,None)
@@ -14,13 +14,20 @@ class BPlusTree[A](
   val M = 3
 
   var root = {
-      LeafNode[A](ArrayBuffer[Entry[A]](null),None)
+    RootNode[A,T](ArrayBuffer[Entry[A]](null),None)
+  }
+
+  var leaf= {
+    LeafNode[T](ArrayBuffer[Entry[T]](null),None).asInstanceOf[A]
   }
 
 
-  def AddData(data: A): Unit ={
-    if (root.array == null){
-      root.array.addOne(Entry[A](index,data))
+  def addData(data: T): Unit ={
+    if (root.array.length == 1){
+      leaf.array.addOne(Entry[T](index,data))
+      root.array.addOne(Entry[A](index,leaf))
+      index += 1
+
     }else{
 
     }
@@ -28,8 +35,8 @@ class BPlusTree[A](
   }
 
 
-  def binarySearch(tree : Node[A]): Unit ={
-    tree.array
+  def binarySearch(tree: Node[A], index: Int): Unit ={
+    //tree.array.
   }
 
 
@@ -51,7 +58,8 @@ object BPlusTree{
 
 object test{
   def main(args: Array[String]): Unit = {
-    val a = new BPlusTree[String,Node]
-    println(a)
+    val a = new BPlusTree[Node[String],String]
+    a.addData("hello")
+    //println(a)
   }
 }
