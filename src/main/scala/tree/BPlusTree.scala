@@ -19,33 +19,53 @@ class BPlusTree[A](
   var h: Int = 0 //树的深度
   var tree_index = 0
   var index = 0
-  val M = 3
+  val M = 4
 
-  var root = {
-    RootNode[Node[A]](ArrayBuffer[Entry[Node[A]]](null),None)
-  }
 
-  var leaf= {
-    LeafNode[A](ArrayBuffer[Entry[A]](null),None)
-  }
+  var root = RootNode[Node[A]](ArrayBuffer[Entry[Node[A]]](),None)
+  private var leaf = LeafNode[A](ArrayBuffer[Entry[A]](),None).asInstanceOf[Node[A]]
+
 
 
 
   def addData(data: A): Unit ={
-    if (leaf.array.length == 1){
+    if (leaf.array == ArrayBuffer()){
       leaf.array.addOne(Entry[A](index,data))
       index += 1
-    }else if(leaf.array.length >= M/2+1 && leaf.array.length <= M+1 ){
+    }else if(leaf.array.length <= M ){
       //TODO 有序插入
+      leaf.array.addOne(Entry[A](index,data))
+      index += 1
     }else{
      //TODO 分裂
+      val left = LeafNode[A](ArrayBuffer[Entry[A]](),None)
+      val right = LeafNode[A](ArrayBuffer[Entry[A]](),None)
+      for(i <- 0 until M / 2)
+        left.array += leaf.array(i)
+      for(i <- M/2 until  leaf.array.length)
+        right.array += leaf.array(i)
+
+      root.array.addOne(Entry(M/2-1,left))
+      root.array.addOne(Entry(M/2,right))
+      left.next = Some(right)
+      root.next = Some(left)
     }
 
   }
 
 
-  def binarySearch(tree: Node[A], index: Int): Unit ={
-    //tree.array.
+  def binarySearch(tree: RootNode[Node[A]], i: Int): Node[A] ={
+    if(tree.array(tree.array.length/2).key > i) {
+      tree.array.slice(tree.array.length / 2, tree.array.length)
+      binarySearch(tree, i)
+    }
+    else if(tree.array(tree.array.length/2).key < i) {
+      tree.array.slice(0, tree.array.length / 2)
+      binarySearch(tree, i)
+    }
+    else {
+      tree.array(0).value
+    }
   }
 
 
@@ -67,8 +87,11 @@ object BPlusTree{
 
 object test{
   def main(args: Array[String]): Unit = {
-    val a = new BPlusTree[String]
-    a.addData("hello")
-    //println(a)
+    val a = new BPlusTree[Int]
+    a.addData(1)
+    a.addData(2)
+    a.addData(3)
+
+    println(a.root)
   }
 }

@@ -5,7 +5,8 @@ import scala.collection.mutable.ArrayBuffer
 trait Node[A] {
   var array:ArrayBuffer[Entry[A]]
   var m: Int
-  val next: Option[Node[A]]
+
+
 
 
 
@@ -13,7 +14,7 @@ trait Node[A] {
 
 case class RootNode[A](
                         var array: ArrayBuffer[Entry[A]],
-                        override val next: Option[Node[A]]
+                        var next: Option[A]
                       )extends Node[A]{
   override var m: Int = if (array==null) 0 else array.length
 
@@ -25,7 +26,7 @@ case class RootNode[A](
 
 case class LeafNode[A](
                         var array: ArrayBuffer[Entry[A]],
-                        override val next: Option[Node[A]]
+                        var next: Option[Node[A]]
                       )extends Node[A]{
   override var m: Int = if (array==null) 0 else array.length
 
