@@ -1,37 +1,23 @@
 package tree
 
+import tree.TypeEnum.TypeEnum
+
 import scala.collection.mutable.ArrayBuffer
 
-trait Node[A] {
-  var array:ArrayBuffer[Entry[A]]
-  var m: Int
 
 
 
-
-
-}
-
-case class RootNode[A](
-                        var array: ArrayBuffer[Entry[A]],
-                        var next: Option[A]
-                      )extends Node[A]{
-  override var m: Int = if (array==null) 0 else array.length
-
-/*  def this(array: Array[tree.Entry[A]],next: Option[tree.Node[A]]){
-    this(array,next)
-  }*/
+case class Node(
+                        var array: ArrayBuffer[Entry[Any]],
+                        var next: Option[Node]
+                      ){
 
 }
 
-case class LeafNode[A](
-                        var array: ArrayBuffer[Entry[A]],
-                        var next: Option[Node[A]]
-                      )extends Node[A]{
-  override var m: Int = if (array==null) 0 else array.length
 
-
-}
 
 case class Entry[+A](key: Int,value: A)
+
+
+
 

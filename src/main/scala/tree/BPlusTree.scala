@@ -19,40 +19,36 @@ class BPlusTree[A](
   var h: Int = 0 //树的深度
   var tree_index = 0
   var index = 0
-  val M = 4
+  val M = 5
 
 
-  var root = RootNode[Node[A]](ArrayBuffer[Entry[Node[A]]](),None)
-  private var leaf = LeafNode[A](ArrayBuffer[Entry[A]](),None).asInstanceOf[Node[A]]
+  var root :Option[Node] = None
 
 
 
 
   def addData(data: A): Unit ={
-    if (leaf.array == ArrayBuffer()){
-      leaf.array.addOne(Entry[A](index,data))
-      index += 1
-    }else if(leaf.array.length <= M ){
-      //TODO 有序插入
-      leaf.array.addOne(Entry[A](index,data))
-      index += 1
-    }else{
-     //TODO 分裂
-      val left = LeafNode[A](ArrayBuffer[Entry[A]](),None)
-      val right = LeafNode[A](ArrayBuffer[Entry[A]](),None)
-      for(i <- 0 until M / 2)
-        left.array += leaf.array(i)
-      for(i <- M/2 until  leaf.array.length)
-        right.array += leaf.array(i)
-
-      root.array.addOne(Entry(M/2-1,left))
-      root.array.addOne(Entry(M/2,right))
-      left.next = Some(right)
-      root.next = Some(left)
+    root match {
+      case None =>
+        root = Some(Node(array = ArrayBuffer(),None))
+        root.get.array.addOne(Entry[A](1,data))
+      case Some(x) =>
+        x.array.length match {
+          case n if n >= M/2+1 =>
+            var left = root.get.array.slice(0,M/2+1)
+            var right = root.get.array.slice(M/2+1,root.get.array.length)
+            var right_node = Node(array = right,None)
+            var left_node = Node(array = left,Some(right_node))
+            root.get.array.clear()
+            root.get.next = Some(left_node)
+          case n if n < M/2+1 =>
+            root.get.array.addOne(Entry[A](1,data))
+        }
+    }
     }
 
   }
-
+/*
 
   def binarySearch(tree: RootNode[Node[A]], i: Int): Node[A] ={
     if(tree.array(tree.array.length/2).key > i) {
@@ -76,7 +72,7 @@ class BPlusTree[A](
     out.close()
   }
 
-}
+}*/
 
 object BPlusTree{
 
@@ -91,7 +87,7 @@ object test{
     a.addData(1)
     a.addData(2)
     a.addData(3)
-
-    println(a.root)
+    a.addData(4)
+    println(a.root.get)
   }
 }
