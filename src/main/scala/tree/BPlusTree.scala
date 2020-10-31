@@ -31,23 +31,43 @@ class BPlusTree[A](
     root match {
       case None =>
         root = Some(Node(array = ArrayBuffer(),None))
-        root.get.array.addOne(Entry[A](1,data))
+        root.get.array.addOne(Entry[A](index,data))
+        index += 1
       case Some(x) =>
         x.array.length match {
           case n if n >= M/2+1 =>
+            root.get.array.addOne(Entry[A](index,data))
             var left = root.get.array.slice(0,M/2+1)
             var right = root.get.array.slice(M/2+1,root.get.array.length)
             var right_node = Node(array = right,None)
             var left_node = Node(array = left,Some(right_node))
-            root.get.array.clear()
+/*            root = Option(Node())*/
+            root.get.array = ArrayBuffer(Entry(0,left_node),Entry(1,right_node))
             root.get.next = Some(left_node)
           case n if n < M/2+1 =>
-            root.get.array.addOne(Entry[A](1,data))
+            root.get.array.addOne(Entry[A](index,data))
+            index += 1
         }
     }
     }
 
+  def binarySearch(root: Option[Node], i: Int): Node ={
+    if(root.get.array(root.get.array.length/2).key > i) {
+      root.get.array.slice(root.get.array.length / 2, root.get.array.length)
+      binarySearch(root, i)
+    }
+    else if(root.get.array(root.get.array.length/2).key < i) {
+      root.get.array.slice(0, root.get.array.length / 2)
+      binarySearch(root, i)
+    }
+    else {
+      root.get.array(0).value.asInstanceOf[Node]
+    }
   }
+
+
+  }
+
 /*
 
   def binarySearch(tree: RootNode[Node[A]], i: Int): Node[A] ={
@@ -88,6 +108,7 @@ object test{
     a.addData(2)
     a.addData(3)
     a.addData(4)
+
     println(a.root.get)
   }
 }
