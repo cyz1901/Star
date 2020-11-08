@@ -10,8 +10,8 @@
         <module name="Star" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="8">
-      <module name="Star" target="5" />
+    <bytecodeTargetLevel target="1.1">
+      <module name="Star" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
